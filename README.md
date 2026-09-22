@@ -119,9 +119,12 @@ Ambas as soluções compartilham uma lógica semelhante e, por consequência, fa
 
 ## Questão 04
 
-**Resolvida também por:** _(indicar a IA utilizada)_
+**Resolvida também por:** Claude.ia
 
-> ⚠️ **Seção a completar** — adicionar a análise comparativa, pontos fortes/fracos de cada solução, possíveis falhas e conclusão, seguindo o mesmo padrão das questões anteriores.
+> A minha solução passa em todos os testes de mesa e é consideravelmente mais intuitiva e legível que a solução da IA.
+> Nesse problema em específico, utilizamos o mesmo tipo de variável, int, e nossas diferenciações estão no desenrolar do código: A IA utiliza o laço while e a flag parar para sair do loop, com condicionais if-else que testam as entradas para sair (numero == -1), e a permissão de seguir ou não, com else-if vazios que são visualmente desorganizados.
+> Enquanto no meu código, foi utilizado o do-while sem flag, minha condição de saída foi simples do { } while (numero != -1). Dentro do "do", utilizei apenas um if que, de modo que se o numero se encaixar nas condições, seria contabilizado pelo contador e passaria pela operação da soma.
+> Assim, apesar do código da Claude estar mais parecido com o algoritmo da prova, o meu código é mais intuitivo e legível, de modo que eu manteria todo o meu algortimo e não faria alterações.
 
 ---
 
@@ -129,5 +132,6 @@ Ambas as soluções compartilham uma lógica semelhante e, por consequência, fa
 
 **O uso da Inteligência Artificial modificou sua compreensão sobre alguma das questões da prova? Se sim, explique brevemente.**
 
-> ⚠️ **Resposta a completar.**
+> A questão que mudou brevemente a minha compreensão da questão não é tanto da questão inteira, mas o modo de comparar maximos e minimos. A solução da questão 3 pela claude, apesar de falhar no teste de mesa como a minha, me levou a entender outra maneira de fazer comparações de modo mais inteligente e generalizado.
+> Ademais, também nao posso deixar de notar que a IA, mais especificamnete a Claude, gasta mais memória na escolha dos tipos das variáveis porque ela busca criar soluções mais genralizadas. Sua lógica é mais geral, e como pudemos ver, também pode falhar. Dessa forma, cabe sempre ao aluno/dev analisar e testar os códigos de modo a garantir sua funcionalidade.
 
