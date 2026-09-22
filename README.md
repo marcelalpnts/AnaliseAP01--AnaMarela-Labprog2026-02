@@ -1,35 +1,101 @@
-# Relatório sobre a análise do uso de IA para a solução de problemas
+# Relatório — Análise do Uso de IA na Solução de Problemas
 
-# Implementação Avaliação 01 - Parte 02
+**Disciplina:** Laboratório de Programação — LP 2026.2
+**Atividade:** Análise AP01
+**Ferramenta de IA utilizada:** Claude.ai
 
-# Questão 01 - Feita pela Claude.ia
+---
 
-  A IA utilizou variáveis do tipo int, ao invés de unsigned char, gastando 3 bytes a mais de memória; Dessa forma, o programa também aceita entradas negativas e não informa que a entrada ideal para M seria no intervalo [0,7].
+## Sobre este relatório
 
-Para limpar o LSB das componentes RGB, ela utiliza a variável da componente e faz uma operação & ~1 (não 1); Assim, ela gera o mesmo resultado de quando, no meu código, eu faço (variavel_cor & 254). Em que assim eu já apresento o LSB em 0.
+Este documento apresenta a comparação entre as soluções desenvolvidas em sala de aula (14/09 e 18/09) e as soluções geradas pela IA para as quatro questões da avaliação. Para cada questão, são analisados os pontos fortes e fracos de cada abordagem, possíveis falhas e o aprendizado obtido com a comparação.
 
-Como o meu, o código continua rodando caso o usuário faça entradas de M > 7. No entanto, no meu código ainda exibo uma mensagem de instrução. Por essa falta de delimitação de limite no meu código, ocorre um overflow silencioso que gera um resultado diferente do esperado, quando o usuário entra com um valor maior que 255.
+> Todos os códigos referenciados estão disponíveis neste repositório.
 
-# Conclusão: Dessa forma, se eu fosse refazer essa questão:
-1 - Permaneceria com o tipo unsigend char. 
-2 - Adicionar uma estrutura condicional (if/else ou do-while) para validar se 0 <= RGB <= 255 e 0 <= M <= 7 antes de processar os bits.
-3 - Manteria o uso das variáveis de armazenamento do bits, para manter o código limpo e legível. 
+---
 
-# Questão 02 - Feita pela Claude.ia 
+## Sumário
 
-Primeiro, iniciaremos com a correção do meu código: No meu laço for, eu inicializo a variável i = 2, depois de pegar os valores de x1 e x2. Dessa forma, logicamente a variável i deveria receber o valor 3. Da forma que estava, o usuário poderia entrar com 11 variáveis e "y" iniciaria com 1, mas o enunciado pede que ela inicie com 2; além disso, no campo do define, a quantidade de entrada de variáveis é 10, o que permite uma falha.. Outro ajuste necessário seria a mudança do tipo de variável de "suavizado" para float, no campo das variáveis, pois mantendo-o em unsigned char, o código não conseguiria retornar um sinal suavizado de maneira correta, apenas com valores arredondados; na linha de como calcular suavizado, eu alteraria para "suavizado = (float) (anterior + atual + proximo)/3.0f;"
+- [Questão 01](#questão-01)
+- [Questão 02](#questão-02)
+- [Questão 03](#questão-03)
+- [Questão 04](#questão-04)
+- [Considerações finais](#considerações-finais)
 
-Assim, fazendo agora a análise no código gerado por IA, ela utilizou variáveis do tipo int e diouble, gastando uma quantidade desnecessária de memória. Ela também permitiu que o usuário entrasse com a quantidade de amostras que seriam suavizadas, e depois criou uma condicional que verificava se o numero de amostras permitiria a criação de janelas, o que permitiu o resultado correto dos cálculos. Por fim, o calculo das janelas e a impressão do resultado para o usuário se assemelham com o meu.
+---
 
-# Conclusão:
-Apesar do gasto desnecessário de memoria quanto a decisão dos tipos da variáveis, o código da Claude passa no teste de mesa, entrega o que é solicitado no enunciado e o meu, não, por conta de alguns errinhos de falta de atenção.
+## Questão 01
 
-Ainda assim, eu:
-1 - Faria as alterações do início.
-2 - Manteria o #define da variável N e, consequentemente, não faria a verificação de if/else.
+**Resolvida também por:** Claude.ai
 
-# Questão 03 - Feita pela Claude.ia
+### Análise comparativa
 
+| Aspecto | Minha solução | Solução da IA |
+|---|---|---|
+| Tipo de variável | `unsigned char` | `int` (gasta 3 bytes a mais de memória) |
+| Validação de entrada | Não trata negativos nem restringe o intervalo de `M` | Aceita entradas negativas e não informa que `M` deve estar em `[0, 7]` |
+| Limpeza do LSB | `variavel_cor & 254` | `variavel_cor & ~1` (resultado equivalente) |
+| Validação de `M > 7` | Continua rodando, mas exibe mensagem de instrução | Continua rodando sem alerta |
+| Overflow | Ocorre overflow silencioso quando o valor de entrada é maior que 255 (sem tratamento de limite) | Mesmo problema |
 
+### O que eu aprendi / o que faria diferente
 
+1. Manter o tipo `unsigned char`.
+2. Adicionar uma estrutura condicional (`if/else` ou `do-while`) para validar `0 ≤ RGB ≤ 255` e `0 ≤ M ≤ 7` antes de processar os bits.
+3. Manter o uso das variáveis de armazenamento dos bits, para preservar a legibilidade do código.
+
+---
+
+## Questão 02
+
+**Resolvida também por:** Claude.ai
+
+### Correções identificadas na minha solução
+
+- No laço `for`, a variável `i` era inicializada com `i = 2`, mas deveria começar em `i = 3` — o enunciado pede que a suavização comece a partir do índice 2, então o índice de controle precisa iniciar em 3.
+- No `#define`, o limite de entrada permitia até 10 variáveis, mas o esperado eram 11, o que gerava uma falha de limite.
+- A variável `suavizado` estava como `unsigned char`; deveria ser `float`, pois com `unsigned char` o resultado ficava apenas arredondado, sem representar corretamente o sinal suavizado.
+  - Correção proposta: `suavizado = (float)(anterior + atual + proximo) / 3.0f;`
+
+### Análise da solução da IA
+
+| Aspecto | Observação |
+|---|---|
+| Tipos de variável | Usou `int` e `double`, com gasto desnecessário de memória |
+| Entrada de amostras | Permitiu que o usuário definisse a quantidade de amostras a suavizar |
+| Validação | Criou uma condicional para verificar se o número de amostras permite formar janelas — o que garantiu o cálculo correto |
+| Cálculo e saída | Semelhantes à minha implementação |
+
+### Conclusão
+
+Apesar do gasto desnecessário de memória na escolha dos tipos, o código da Claude passa no teste de mesa e atende ao que foi pedido no enunciado. O meu código, por conta de pequenos erros de atenção (inicialização do índice e limite do `#define`), não atendia completamente.
+
+**O que eu faria diferente:**
+
+1. Corrigir os erros de inicialização identificados acima.
+2. Manter o `#define` da variável `N` e, consequentemente, não usar validação por `if/else`.
+
+---
+
+## Questão 03
+
+**Resolvida também por:** Claude.ai
+
+> ⚠️ **Seção a completar** — adicionar a análise comparativa, pontos fortes/fracos de cada solução, possíveis falhas e conclusão, seguindo o mesmo padrão das questões anteriores.
+
+---
+
+## Questão 04
+
+**Resolvida também por:** _(indicar a IA utilizada)_
+
+> ⚠️ **Seção a completar** — adicionar a análise comparativa, pontos fortes/fracos de cada solução, possíveis falhas e conclusão, seguindo o mesmo padrão das questões anteriores.
+
+---
+
+## Considerações finais
+
+**O uso da Inteligência Artificial modificou sua compreensão sobre alguma das questões da prova? Se sim, explique brevemente.**
+
+> ⚠️ **Resposta a completar.**
 
