@@ -28,6 +28,8 @@ Ainda assim, eu:
 1 - Faria as alterações do início.
 2 - Manteria o #define da variável N e, consequentemente, não faria a verificação de if/else.
 
+# Questão 03 - Feita pela Claude.ia
+
 
 
 
